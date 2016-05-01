@@ -8,14 +8,18 @@ ggApp.run(['cordovaWrapper',function(cordovaWrapper) {
 ggApp.controller('NavController',['$scope','cordovaWrapper',function($scope,cordovaWrapper) {
 
 }]);
-ggApp.controller('TestCtrl',['$scope','ggFireDataService','cordovaWrapper',function($scope,ggFireDataService,cordovaWrapper) {
+ggApp.controller('TestCtrl',['$scope','ggFireAuthService','ggFireDataService','cordovaWrapper',function($scope,ggFireAuthService,ggFireDataService,cordovaWrapper) {
 	$scope.data = {
 		title: 'Hello World'
 	};
 
 	$scope.cw = cordovaWrapper;
+	$scope.authData = ggFireAuthService.authData;
 
+	$scope.data.users = ggFireDataService.getUsers();
 
+	$scope.googleLogin = ggFireAuthService.loginWithGoogle
+	$scope.logout = ggFireAuthService.logout;
 
 }]);
 

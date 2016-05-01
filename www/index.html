@@ -19,14 +19,21 @@
     -->
     <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
 
+	<link rel="stylesheet" type="text/css" href="css/app.css" />
+
+	<script type="text/javascript" src="cordova.js"></script>
+
 	<script type="text/javascript" src="js/lib/firebase-web.js"></script>
 	<script type="text/javascript" src="js/lib/angular-1.3.15.js"></script>
 	<script type="text/javascript" src="js/lib/angularfire-1.2.0.min.js"></script>
 	<script type="text/javascript" src="js/lib/ngStorage-master/ngStorage.min.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="css/app.css" />
-    <title>GroceryGetter</title>
+	<title>Grocery Getter</title>
 
+	<script type="text/javascript" src="js/modules/ggCordova.js"></script>
+	<script type="text/javascript" src="js/modules/ggDeviceApiWrapper.js"></script>
+	<script type="text/javascript" src="js/modules/ggFilters.js"></script>
+	<script type="text/javascript" src="js/modules/ggFirebaseServices.js"></script>
 
 	<script type="text/javascript" src="js/groceryGetter.js"></script>
 </head>
@@ -43,7 +50,7 @@
 	<div class="app-nav-container" ng-cloak ng-controller="NavController">
 		<ul class="app-nav">
 			<li>Home</li>
-			<li>Menu Item 1</li>
+			<li>Menu Item A</li>
 		</ul>
 	</div>
 	<div class="app-content-container" ng-cloak ng-controller="TestCtrl">
@@ -60,10 +67,14 @@
 				Title: <input type="text" ng-model="data.title">
 			</p>
 			<p>
-				<button ng-click="checkCon()">Check Con</button>
+				<button ng-click="googleLogin()">Google Login</button>
+				<button ng-click="logout()">Log out</button>
+				<!--<button ng-click="checkCon()">Check Con</button>
 				<button ng-click="testIt()">Test Position</button>
-				<button ng-click="getHttp()">Get HTTP</button>
+				<button ng-click="getHttp()">Get HTTP</button>-->
 			</p>
+			<div>Logged In: {{authData.isLoggedIn}}</div>
+			<pre>{{authData.currentUser | jsonFull}}</pre>
 			<pre>{{data | jsonFull}}</pre>
 
 		</div>
@@ -71,33 +82,8 @@
 
 </div>
 
-<script type="text/javascript" src="cordova.js"></script>
-<!--<script type="text/javascript" src="js/index.js"></script>
-<script type="text/javascript">
-	function checkConnection() {
-		if (!navigator.connection) {
-			console.log('Connection: Browser');
-		} else {
-			var networkState = navigator.connection.type;
-
-			var states = {};
-			states[Connection.UNKNOWN]  = 'Unknown connection';
-			states[Connection.ETHERNET] = 'Ethernet connection';
-			states[Connection.WIFI]     = 'WiFi connection';
-			states[Connection.CELL_2G]  = 'Cell 2G connection';
-			states[Connection.CELL_3G]  = 'Cell 3G connection';
-			states[Connection.CELL_4G]  = 'Cell 4G connection';
-			states[Connection.CELL]     = 'Cell generic connection';
-			states[Connection.NONE]     = 'No network connection';
-			states['desktop'] 			= 'Desktop';
-
-			console.log('Connection type: ' + states[networkState]);
-		}
-
-	}
-
-	//checkConnection();
-</script>-->
+<!---->
+<script src="http://192.168.1.5:8080/target/target-script-min.js#anonymous"></script>
 
 </body>
 
