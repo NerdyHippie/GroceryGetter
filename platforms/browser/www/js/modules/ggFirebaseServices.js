@@ -6,7 +6,7 @@ ggFire.factory('ggFirebaseAuth', ['fbRootRef','$firebaseAuth',function(fbRootRef
 	return $firebaseAuth(fbRootRef);
 }]);
 
-ggFire.service('ggFireAuthService',['ggFirebaseAuth','fbRootRef','$firebaseObject',function(ggFirebaseAuth,fbRootRef,$firebaseObject) {
+ggFire.service('ggFireAuthService',['$http','ggFirebaseAuth','fbRootRef','$firebaseObject',function($http,ggFirebaseAuth,fbRootRef,$firebaseObject) {
 	var svc = {
 		authData: {
 			isLoggedIn: false
@@ -17,15 +17,20 @@ ggFire.service('ggFireAuthService',['ggFirebaseAuth','fbRootRef','$firebaseObjec
 		}
 		,setLoggedIn: function(authData) {
 			svc.authData.isLoggedIn = true;
-			svc.authData.currentUser = svc.setUserData(authData);;
-			console.log(svc);
+			svc.authData.currentUser = svc.setUserData(authData);
+			//console.log(svc);
 		}
 		,setLoggedOut: function() {
 			svc.authData.isLoggedIn = false;
+			switch(svc.authData.currentUser.provider) {
+				case 'google':
+					$http.get('https://accounts.google.com/logout');
+					break;
+			}
 			svc.authData.currentUser = {};
 		}
 		,setUserData: function(authData) {
-			console.info('setting user data');
+			console.log('setting user data');
 			console.log(authData);
 
 			var userObj = $firebaseObject(fbRootRef.child('users').child(authData.uid));
@@ -34,20 +39,23 @@ ggFire.service('ggFireAuthService',['ggFirebaseAuth','fbRootRef','$firebaseObjec
 			switch(authData.provider) {
 				case 'google':
 					newUserData = {
-						fullName: authData.google.cachedUserProfile.name
+						provider: authData.provider
+						,fullName: authData.google.cachedUserProfile.name
 						,firstName: authData.google.cachedUserProfile.given_name
 						,lastName: authData.google.cachedUserProfile.family_name
 						,thumbnail: authData.google.cachedUserProfile.picture
-					}
+					};
 					break;
 			}
 
 			angular.extend(userObj,newUserData);
 			userObj.$save()
+
+			return userObj;
 		}
 		,onAuth: function(authData) {
-			console.info('firing onAuth');
-			console.log(authData);
+			console.log('firing onAuth');
+			console.log(authData||'null');
 
 			if (authData) {
 				svc.setLoggedIn(authData);
@@ -56,7 +64,7 @@ ggFire.service('ggFireAuthService',['ggFirebaseAuth','fbRootRef','$firebaseObjec
 			}
 		}
 		,loginWithGoogle: function() {
-			ggFirebaseAuth.$authWithOAuthPopup('google').then(svc.onAuth);
+			ggFirebaseAuth.$authWithOAuthPopup('google',{remember:'sessionOnly'}).then(svc.onAuth);
 		}
 	};
 

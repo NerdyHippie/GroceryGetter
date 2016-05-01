@@ -5,20 +5,20 @@ ggApp.run(['cordovaWrapper',function(cordovaWrapper) {
 }]);
 //ggApp.config(function)
 
-ggApp.controller('NavController',['$scope','cordovaWrapper',function($scope,cordovaWrapper) {
-
+ggApp.controller('NavController',['$scope','ggFireAuthService',function($scope,ggFireAuthService) {
+	$scope.authData = ggFireAuthService.authData;
 }]);
 ggApp.controller('TestCtrl',['$scope','ggFireAuthService','ggFireDataService','cordovaWrapper',function($scope,ggFireAuthService,ggFireDataService,cordovaWrapper) {
 	$scope.data = {
-		title: 'Hello World'
+		title: 'Grocery Getter'
 	};
 
-	$scope.cw = cordovaWrapper;
+	$scope.cordovaState = cordovaWrapper.state;
 	$scope.authData = ggFireAuthService.authData;
 
 	$scope.data.users = ggFireDataService.getUsers();
 
-	$scope.googleLogin = ggFireAuthService.loginWithGoogle
+	$scope.googleLogin = ggFireAuthService.loginWithGoogle;
 	$scope.logout = ggFireAuthService.logout;
 
 }]);

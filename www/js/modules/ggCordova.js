@@ -3,8 +3,10 @@ var ggCordova = angular.module('ggCordova',[]);
 
 ggCordova.service('cordovaWrapper',[function() {
 	var svc = {
-		deviceReady: false
-		,loaded: false
+		state: {
+			deviceReady: false
+			,loaded: false
+		}
 		// Bind Event Listeners
 		//
 		// Bind any events that are required on startup. Common events are:
@@ -18,13 +20,13 @@ ggCordova.service('cordovaWrapper',[function() {
 		// function, we must explicitly call 'app.receivedEvent(...);'
 		,onDeviceReady: function() {
 			console.log('firing cordovaWrapper.onDeviceReady',this);
-			svc.deviceReady = true;
+			svc.state.deviceReady = true;
 			svc.receivedEvent('deviceready');
 
 		}
 		,onLoad: function() {
 			console.log('loaded!',arguments);
-			svc.loaded = true;
+			svc.state.loaded = true;
 		}
 		// Update DOM on a Received Event
 		,receivedEvent: function(id) {
