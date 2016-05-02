@@ -1,9 +1,9 @@
 var ggCordova = angular.module('ggCordova',[]);
 
 
-ggCordova.service('cordovaWrapper',[function() {
+ggCordova.service('cordovaWrapper',['cordovaReady',function(cordovaReady) {
 	var svc = {
-		state: {
+		cordovaState: {
 			deviceReady: false
 			,loaded: false
 		}
@@ -19,14 +19,15 @@ ggCordova.service('cordovaWrapper',[function() {
 		// The scope of 'this' is the event. In order to call the 'receivedEvent'
 		// function, we must explicitly call 'app.receivedEvent(...);'
 		,onDeviceReady: function() {
-			console.log('firing cordovaWrapper.onDeviceReady',this);
-			svc.state.deviceReady = true;
+			console.log('firing cordovaWrapper.onDeviceReady');
+			console.log(this);
+			svc.cordovaState.deviceReady = true;
 			svc.receivedEvent('deviceready');
 
 		}
 		,onLoad: function() {
 			console.log('loaded!',arguments);
-			svc.state.loaded = true;
+			svc.cordovaState.loaded = true;
 		}
 		// Update DOM on a Received Event
 		,receivedEvent: function(id) {
@@ -39,6 +40,30 @@ ggCordova.service('cordovaWrapper',[function() {
 
 			console.log('Received Event: ' + id);
 		}
+		,getConnectionType: cordovaReady(function() {
+			var ret = 'unknown';
+
+			if (!navigator.connection) {
+				console.log('Connection: Browser');
+				ret = 'browser';
+			} else {
+				var networkState = navigator.connection.type;
+
+				switch(networkState) {
+					case Connection.UNKNOWN: 	ret = 'unknownConnection'; break;
+					case Connection.ETHERNET: 	ret = 'ethernet'; break;
+					case Connection.WIFI: 		ret = 'wifi'; break;
+					case Connection.CELL_2G: 	ret = 'cell2g'; break;
+					case Connection.CELL_3G: 	ret = 'cell3g'; break;
+					case Connection.CELL_4G: 	ret = 'cell4g'; break;
+					case Connection.CELL: 		ret = 'cellGeneric'; break;
+					case Connection.NONE: 		ret = 'none'; break;
+					case 'desktop': 			ret = 'desktop'; break;
+				}
+			}
+
+			return ret;
+		})
 	};
 	return svc;
 }]);

@@ -30,8 +30,7 @@ ggFire.service('ggFireAuthService',['$http','ggFirebaseAuth','fbRootRef','$fireb
 			svc.authData.currentUser = {};
 		}
 		,setUserData: function(authData) {
-			console.log('setting user data');
-			console.log(authData);
+			console.log('setting user data',authData);
 
 			var userObj = $firebaseObject(fbRootRef.child('users').child(authData.uid));
 			var newUserData;
@@ -54,8 +53,8 @@ ggFire.service('ggFireAuthService',['$http','ggFirebaseAuth','fbRootRef','$fireb
 			return userObj;
 		}
 		,onAuth: function(authData) {
-			console.log('firing onAuth');
-			console.log(authData||'null');
+			console.log('firing onAuth')
+			console.log(authData||'authData is not defined');
 
 			if (authData) {
 				svc.setLoggedIn(authData);
@@ -82,7 +81,7 @@ ggFire.service('ggFireDataService',['fbRootRef','$firebaseObject','$firebaseArra
 					,email: ''
 				}
 				,getFullName: function() {
-					console.log('this from Users.getFullName()',this, this.firstName + ' ' + this.lastName);
+					logIt('this from Users.getFullName()',this, this.firstName + ' ' + this.lastName);
 					return this.firstName + ' ' + this.lastName
 				}
 			});

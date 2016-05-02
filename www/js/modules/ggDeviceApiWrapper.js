@@ -1,4 +1,4 @@
-var ggDevice = angular.module('ggDeviceApiWrapper',[]);
+var ggDevice = angular.module('ggDeviceApiWrapper',['ggCordova']);
 
 ggDevice.factory('geolocation',['$rootScope','cordovaReady',function($rootScope, cordovaReady) {
 	return {

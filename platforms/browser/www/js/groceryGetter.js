@@ -1,25 +1,34 @@
 var ggApp = angular.module('groceryGetter',['ggFilters','ggFirebaseServices','ggCordova']);
 
-ggApp.run(['cordovaWrapper',function(cordovaWrapper) {
+ggApp.run(['$rootScope','cordovaWrapper',function($rootScope,cordovaWrapper) {
 	cordovaWrapper.bindEvents();
+	$rootScope.cordovaState = cordovaWrapper.cordovaState;
 }]);
 //ggApp.config(function)
 
 ggApp.controller('NavController',['$scope','ggFireAuthService',function($scope,ggFireAuthService) {
 	$scope.authData = ggFireAuthService.authData;
 }]);
-ggApp.controller('TestCtrl',['$scope','ggFireAuthService','ggFireDataService','cordovaWrapper',function($scope,ggFireAuthService,ggFireDataService,cordovaWrapper) {
+ggApp.controller('loginController',['$scope','ggFireAuthService',function($scope,ggFireAuthService) {
+	$scope.authData = ggFireAuthService.authData;
+
+	$scope.googleLogin = ggFireAuthService.loginWithGoogle;
+	$scope.logout = ggFireAuthService.logout;
+
+	$scope.showOpts = false;
+
+
+}]);
+ggApp.controller('TestCtrl',['$scope','ggFireDataService','cordovaWrapper',function($scope,ggFireDataService,cordovaWrapper) {
 	$scope.data = {
 		title: 'Grocery Getter'
 	};
 
-	$scope.cordovaState = cordovaWrapper.state;
-	$scope.authData = ggFireAuthService.authData;
+	$scope.cordovaState = cordovaWrapper.cordovaState;
 
 	$scope.data.users = ggFireDataService.getUsers();
 
-	$scope.googleLogin = ggFireAuthService.loginWithGoogle;
-	$scope.logout = ggFireAuthService.logout;
+
 
 }]);
 

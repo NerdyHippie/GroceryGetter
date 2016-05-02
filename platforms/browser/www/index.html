@@ -19,16 +19,18 @@
     -->
     <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
 
+	<title>Grocery Getter</title>
+
 	<link rel="stylesheet" type="text/css" href="css/app.css" />
 
-	<!--<script type="text/javascript" src="cordova.js"></script>-->
+	<script type="text/javascript" src="cordova.js"></script>
 
 	<script type="text/javascript" src="js/lib/firebase-web.js"></script>
 	<script type="text/javascript" src="js/lib/angular-1.3.15.js"></script>
 	<script type="text/javascript" src="js/lib/angularfire-1.2.0.min.js"></script>
 	<script type="text/javascript" src="js/lib/ngStorage-master/ngStorage.min.js"></script>
 
-	<title>Grocery Getter</title>
+	<script type="text/javascript" src="js/utils.js"></script>
 
 	<script type="text/javascript" src="js/modules/ggCordova.js"></script>
 	<script type="text/javascript" src="js/modules/ggDeviceApiWrapper.js"></script>
@@ -41,24 +43,31 @@
 
 <body ng-app="groceryGetter">
 <div class="top-container">
+
 	<div class="app-loading-container" ng-if="::false">
 		<div class="app-loading">
 			Loading app now!
 		</div>
 	</div>
 
+
+
 	<div class="app-nav-container" ng-cloak ng-controller="NavController">
-		<div class="user-id">
-			<span ng-show="authData.isLoggedIn">Logged In</span>
-			<span ng-show="!authData.isLoggedIn">No</span>
-			User:
-			{{authData.currentUser.fullName}} <img ng-src="{{authData.currentUser.thumbnail}}">
+
+		<div class="container-login" ng-controller="loginController">
+			<div ng-show="authData.isLoggedIn">
+				{{authData.currentUser.fullName}} <img ng-src="{{authData.currentUser.thumbnail}}">
+			</div>
 		</div>
+
+
 		<ul class="app-nav">
 			<li>Home</li>
 			<li>Menu Item A</li>
 		</ul>
 	</div>
+
+
 	<div class="app-content-container" ng-cloak ng-controller="TestCtrl">
 		<div class="centered">
 			<h1>{{data.title}}</h1>
@@ -70,6 +79,7 @@
 		</div>
 		<div class="app-content">
 			<p>
+				Ready: {{cordovaState.deviceReady}}
 				Title: <input type="text" ng-model="data.title">
 			</p>
 			<div ng-hide="authData.isLoggedIn">
