@@ -28,6 +28,30 @@
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
+.container-login-userInfo {
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  float: right;
+  font-size: 1.3em;
+  vertical-align: middle;
+}
+.container-login-userInfo img {
+  max-width: 30px;
+  max-height: 30px;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  float: right;
+  margin-left: 8px;
+}
+.container-login {
+  text-align: center;
+  font-size: 1.2em;
+}
+.container-debug {
+  display: none;
+}
 [ng\:cloak],
 [ng-cloak],
 [data-ng-cloak],
@@ -61,6 +85,33 @@ body {
   width: 100%;
   height: 100%;
   overflow: auto;
+}
+.app-nav-container {
+  padding: 5px 8px;
+  height: 30px;
+  line-height: 30px;
+  background-color: rgba(0, 0, 0, 0.25);
+  vertical-align: middle;
+  clear: both;
+}
+.app-nav-container .app-nav {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  font-size: 1.5em;
+  overflow: hidden;
+}
+.app-nav-container .app-nav li {
+  float: left;
+  display: inline-block;
+  border-right: 1px solid #000000;
+  padding: 0 5px;
+}
+.app-nav-container .app-nav li:first-child {
+  padding-left: 0;
+}
+.app-nav-container .app-nav li:last-child {
+  border-right: none;
 }
 .app-loading-container {
   position: absolute;
@@ -137,17 +188,6 @@ body {
 }
 .centered {
   text-align: center;
-}
-.container-login {
-  display: inline-block;
-  float: right;
-}
-.container-login img {
-  max-width: 30px;
-  max-height: 30px;
-  border-radius: 15px;
-  -webkit-border-radius: 15px;
-  -moz-border-radius: 15px;
 }
 /*
 body {

@@ -30,7 +30,7 @@
 	<script type="text/javascript" src="js/lib/angularfire-1.2.0.min.js"></script>
 	<script type="text/javascript" src="js/lib/ngStorage-master/ngStorage.min.js"></script>
 
-	<script type="text/javascript" src="js/utils.js"></script>
+	<!--<script type="text/javascript" src="js/utils.js"></script>-->
 
 	<script type="text/javascript" src="js/modules/ggCordova.js"></script>
 	<script type="text/javascript" src="js/modules/ggDeviceApiWrapper.js"></script>
@@ -44,17 +44,22 @@
 <body ng-app="groceryGetter">
 <div class="top-container">
 
-	<div class="app-loading-container" ng-if="::false">
+	<div class="app-loading-container" ng-if="::false" ng-show="!cordovaState.deviceReady">
 		<div class="app-loading">
 			Loading app now!
 		</div>
 	</div>
 
 
+	<div class="container-login" ng-controller="loginController" ng-show="">
+		<h1>Please Log In</h1>
+		<button ng-click="googleLogin()">Log in with Google</button>
+	</div>
 
-	<div class="app-nav-container" ng-cloak ng-controller="NavController">
 
-		<div class="container-login" ng-controller="loginController">
+	<div class="app-nav-container" ng-cloak ng-controller="NavController" ng-if="cordovaState.deviceReady">
+
+		<div class="container-login-userInfo" ng-controller="loginController">
 			<div ng-show="authData.isLoggedIn">
 				{{authData.currentUser.fullName}} <img ng-src="{{authData.currentUser.thumbnail}}">
 			</div>
@@ -68,7 +73,7 @@
 	</div>
 
 
-	<div class="app-content-container" ng-cloak ng-controller="TestCtrl">
+	<div class="app-content-container" ng-cloak ng-controller="TestCtrl" ng-if="cordovaState.deviceReady">
 		<div class="centered">
 			<h1>{{data.title}}</h1>
 			<div class="logo"></div>

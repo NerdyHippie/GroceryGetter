@@ -6,12 +6,20 @@ ggCordova.service('cordovaWrapper',['cordovaReady',function(cordovaReady) {
 		cordovaState: {
 			deviceReady: false
 			,loaded: false
+			,desktopFormat: false
 		}
 		// Bind Event Listeners
 		//
 		// Bind any events that are required on startup. Common events are:
 		// 'load', 'deviceready', 'offline', and 'online'.
 		,bindEvents: function() {
+			var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
+			if ( app ) {
+				svc.sniffPlatform();
+			} else {
+				svc.cordovaState.deviceReady = true;
+				svc.cordovaState.desktopFormat = true;
+			}
 			document.addEventListener('deviceready', svc.onDeviceReady, false);
 		}
 		// deviceready Event Handler
@@ -39,6 +47,9 @@ ggCordova.service('cordovaWrapper',['cordovaReady',function(cordovaReady) {
 			receivedElement.setAttribute('style', 'display:block;');
 
 			console.log('Received Event: ' + id);
+		}
+		,sniffPlatform: function() {
+
 		}
 		,getConnectionType: cordovaReady(function() {
 			var ret = 'unknown';

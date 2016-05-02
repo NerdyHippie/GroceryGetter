@@ -28,6 +28,17 @@
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
+.container-login-userInfo {
+  display: inline-block;
+  float: right;
+}
+.container-login-userInfo img {
+  max-width: 30px;
+  max-height: 30px;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+}
 [ng\:cloak],
 [ng-cloak],
 [data-ng-cloak],
@@ -137,17 +148,6 @@ body {
 }
 .centered {
   text-align: center;
-}
-.container-login {
-  display: inline-block;
-  float: right;
-}
-.container-login img {
-  max-width: 30px;
-  max-height: 30px;
-  border-radius: 15px;
-  -webkit-border-radius: 15px;
-  -moz-border-radius: 15px;
 }
 /*
 body {

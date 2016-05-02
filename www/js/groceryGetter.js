@@ -1,8 +1,9 @@
 var ggApp = angular.module('groceryGetter',['ggFilters','ggFirebaseServices','ggCordova']);
 
-ggApp.run(['$rootScope','cordovaWrapper',function($rootScope,cordovaWrapper) {
+ggApp.run(['$rootScope','cordovaWrapper','ggFireAuthService',function($rootScope,cordovaWrapper,ggFireAuthService) {
 	cordovaWrapper.bindEvents();
 	$rootScope.cordovaState = cordovaWrapper.cordovaState;
+	$rootScope.authState = ggFireAuthService.authData;
 }]);
 //ggApp.config(function)
 
@@ -19,12 +20,11 @@ ggApp.controller('loginController',['$scope','ggFireAuthService',function($scope
 
 
 }]);
-ggApp.controller('TestCtrl',['$scope','ggFireDataService','cordovaWrapper',function($scope,ggFireDataService,cordovaWrapper) {
+ggApp.controller('TestCtrl',['$scope','ggFireDataService',function($scope,ggFireDataService) {
 	$scope.data = {
 		title: 'Grocery Getter'
 	};
 
-	$scope.cordovaState = cordovaWrapper.cordovaState;
 
 	$scope.data.users = ggFireDataService.getUsers();
 

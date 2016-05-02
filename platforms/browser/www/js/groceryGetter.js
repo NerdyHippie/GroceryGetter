@@ -19,12 +19,11 @@ ggApp.controller('loginController',['$scope','ggFireAuthService',function($scope
 
 
 }]);
-ggApp.controller('TestCtrl',['$scope','ggFireDataService','cordovaWrapper',function($scope,ggFireDataService,cordovaWrapper) {
+ggApp.controller('TestCtrl',['$scope','ggFireDataService',function($scope,ggFireDataService) {
 	$scope.data = {
 		title: 'Grocery Getter'
 	};
 
-	$scope.cordovaState = cordovaWrapper.cordovaState;
 
 	$scope.data.users = ggFireDataService.getUsers();
 

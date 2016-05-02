@@ -10,6 +10,7 @@ ggFire.service('ggFireAuthService',['$http','ggFirebaseAuth','fbRootRef','$fireb
 	var svc = {
 		authData: {
 			isLoggedIn: false
+			,firebaseIsConnected: false
 			,currentUser: {}
 		}
 		,logout: function() {
@@ -30,8 +31,6 @@ ggFire.service('ggFireAuthService',['$http','ggFirebaseAuth','fbRootRef','$fireb
 			svc.authData.currentUser = {};
 		}
 		,setUserData: function(authData) {
-			console.log('setting user data',authData);
-
 			var userObj = $firebaseObject(fbRootRef.child('users').child(authData.uid));
 			var newUserData;
 
@@ -53,8 +52,7 @@ ggFire.service('ggFireAuthService',['$http','ggFirebaseAuth','fbRootRef','$fireb
 			return userObj;
 		}
 		,onAuth: function(authData) {
-			console.log('firing onAuth')
-			console.log(authData||'authData is not defined');
+			if (!svc.authData.firebaseIsConnected) svc.authData.firebaseIsConnected = true;
 
 			if (authData) {
 				svc.setLoggedIn(authData);
