@@ -93,20 +93,25 @@ ggFire.service('ggFireDataService',['fbRootRef','$firebaseObject','$firebaseArra
 		,getUsers: function() {
 			return new $firebaseArray(fbRootRef.child('users'));
 		}
-		,getStores: function(userId) {
-			console.log('get store for %o',userId);
+		,getStores: function() {
 			return new $firebaseArray(fbRootRef.child('stores'));
 		}
 		,getStore: function(storeId) {
 			return new $firebaseObject(fbRootRef.child('stores').child(storeId));
 		}
-		,getItems: function(userId) {
-			return new $firebaseArray(fbRootRef.child('items'));
+		,getItems: function(args) {
+			args = args || {};
+			if (args.storeId) {
+
+			} else {
+				return new $firebaseArray(fbRootRef.child('items'));
+			}
+
 		}
 		,getItem: function(itemId) {
 			return new $firebaseObject(fbRootRef.child('items').child(itemId));
 		}
-		,getLists: function(userId) {
+		,getLists: function() {
 			return new $firebaseArray(fbRootRef.child('lists'));
 		}
 		,getList: function(listId) {

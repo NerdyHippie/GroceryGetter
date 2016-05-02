@@ -63,21 +63,54 @@ ggApp.controller('loginController',['$scope','ggFireAuthService',function($scope
 }]);
 
 ggApp.controller('listListController',['$scope','$rootScope','ggFireDataService',function($scope,$rootScope,ggFireDataService) {
-	$scope.lists = ggFireDataService.getLists($rootScope.authState.currentUser.id);
+	$scope.lists = ggFireDataService.getLists();
+	$scope.stores = ggFireDataService.getStores();
+
+	var _newListDefault = {
+		ownerId: $rootScope.authState.currentUser.id
+	};
+	$scope.newList = angular.copy(_newListDefault);
+	$scope.addNewList = function() {
+		$scope.lists.$add($scope.newList).then(function() {
+			$scope.newList = angular.copy(_newListDefault);
+		});
+	}
 }]);
 ggApp.controller('listDetailController',['$scope','$rootScope','$routeParams','ggFireDataService',function($scope,$rootScope,$routeParams,ggFireDataService) {
-	$scope.list = ggFireDataService.getList($scope.listId);
+	angular.extend($scope,$routeParams);
+
+	ggFireDataService.getList($scope.listId).$loaded(function(data) {
+		$scope.list = data;
+
+		$scope.storeItems = ggFireDataService.getItems({storeId:data.storeId});
+	});
 }]);
 
 ggApp.controller('itemListController',['$scope','$rootScope','ggFireDataService',function($scope,$rootScope,ggFireDataService) {
-	$scope.items = ggFireDataService.getItems($rootScope.authState.currentUser.id);
+	$scope.items = ggFireDataService.getItems();
+	$scope.stores = ggFireDataService.getStores();
+
+	var _newItemDefault = {
+		ownerId: $rootScope.authState.currentUser.id
+	};
+	$scope.newItem = angular.copy(_newItemDefault);
+	$scope.addNewItem = function() {
+		if ($scope.newItem.storeId) {
+			$scope.items.$add($scope.newItem).then(function() {
+				$scope.newItem = angular.copy(_newItemDefault);
+			});
+		}
+
+	}
 }]);
 ggApp.controller('itemDetailController',['$scope','$rootScope','$routeParams','ggFireDataService',function($scope,$rootScope,$routeParams,ggFireDataService) {
+	angular.extend($scope,$routeParams);
 	$scope.item = ggFireDataService.getItem($scope.itemId);
 }]);
 
 ggApp.controller('storeListController',['$scope','$rootScope','ggFireDataService',function($scope,$rootScope,ggFireDataService) {
-	$scope.stores = ggFireDataService.getStores($rootScope.authState.currentUser.id);
+	$scope.stores = ggFireDataService.getStores();
+
 	var _newStoreDefault = {
 		ownerId: $rootScope.authState.currentUser.id
 	};
