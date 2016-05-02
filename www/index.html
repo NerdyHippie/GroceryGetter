@@ -27,6 +27,7 @@
 
 	<script type="text/javascript" src="js/lib/firebase-web.js"></script>
 	<script type="text/javascript" src="js/lib/angular-1.3.15.js"></script>
+	<script type="text/javascript" src="js/lib/angular-route-1.3.15.min.js"></script>
 	<script type="text/javascript" src="js/lib/angularfire-1.2.0.min.js"></script>
 	<script type="text/javascript" src="js/lib/ngStorage-master/ngStorage.min.js"></script>
 
@@ -70,9 +71,9 @@
 		<div>Firebase Connected: {{authState.firebaseIsConnected}}</div>
 	</div>
 
-	<div ng-cloak ng-controller="loginController" ng-if="cordovaState.deviceReady && authState.firebaseIsConnected && authState.isLoggedIn">
+	<div ng-cloak ng-if="cordovaState.deviceReady && authState.firebaseIsConnected && authState.isLoggedIn">
 
-		<div class="app-nav-container" ng-controller="NavController">
+		<div class="app-nav-container" ng-controller="navController">
 
 			<div class="container-login-userInfo" ng-controller="loginController" ng-click="logout()">
 				<img ng-src="{{authState.currentUser.thumbnail}}">
@@ -81,37 +82,15 @@
 
 
 			<ul class="app-nav">
-				<li>Lists</li>
-				<li>Items</li>
-				<li>Stores</li>
+				<li><a href="#lists">Lists</a></li>
+				<li><a href="#items">Items</a></li>
+				<li><a href="#stores">Stores</a></li>
 			</ul>
 		</div>
 
 
-		<div class="app-content-container" ng-controller="TestCtrl">
-			<div class="centered">
-				<h1>{{data.title}}</h1>
-				<div class="logo"></div>
-				<div id="deviceready" class="blink">
-					<p class="event listening" ng-show="!cordovaState.deviceReady">Connecting to Device</p>
-					<p class="event received" ng-show="cordovaState.deviceReady">Device is Ready</p>
-				</div>
-			</div>
-			<div class="app-content">
-				<p>
-					Ready: {{cordovaState.deviceReady}}
-					Title: <input type="text" ng-model="data.title">
-				</p>
-				<div ng-hide="authState.isLoggedIn">
-					<button ng-click="googleLogin()">Google Login</button>
-				</div>
-				<div ng-show="authState.isLoggedIn">
-					<button ng-click="logout()">Log out of GroceryGetter</button>
-				</div>
-				<div>Logged In: {{authState.isLoggedIn}}</div>
+		<div class="app-content-container" ng-view>
 
-
-			</div>
 		</div>
 	</div>
 </div>

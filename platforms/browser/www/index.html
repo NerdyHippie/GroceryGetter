@@ -27,6 +27,7 @@
 
 	<script type="text/javascript" src="js/lib/firebase-web.js"></script>
 	<script type="text/javascript" src="js/lib/angular-1.3.15.js"></script>
+	<script type="text/javascript" src="js/lib/angular-route-1.3.15.min.js"></script>
 	<script type="text/javascript" src="js/lib/angularfire-1.2.0.min.js"></script>
 	<script type="text/javascript" src="js/lib/ngStorage-master/ngStorage.min.js"></script>
 
@@ -44,61 +45,54 @@
 <body ng-app="groceryGetter">
 <div class="top-container">
 
-	<div class="app-loading-container" ng-if="::false" ng-show="!cordovaState.deviceReady">
+	<div class="app-loading-container" ng-if="!cordovaState.deviceReady || !authState.firebaseIsConnected">
 		<div class="app-loading">
-			Loading app now!
+			<div ng-show="::false">
+				Loading Angular
+			</div>
+			<div ng-show="!cordovaState.deviceReady">
+				Connecting to Device
+			</div>
+			<div ng-show="!authState.firebaseIsConnected">
+				Connecting to Firebase
+			</div>
 		</div>
 	</div>
 
 
-	<div class="container-login" ng-controller="loginController" ng-show="">
+	<div ng-cloak class="container-login" ng-controller="loginController" ng-show="cordovaState.deviceReady && authState.firebaseIsConnected && !authState.isLoggedIn">
 		<h1>Please Log In</h1>
 		<button ng-click="googleLogin()">Log in with Google</button>
 	</div>
 
-
-	<div class="app-nav-container" ng-cloak ng-controller="NavController" ng-if="cordovaState.deviceReady">
-
-		<div class="container-login-userInfo" ng-controller="loginController">
-			<div ng-show="authData.isLoggedIn">
-				{{authData.currentUser.fullName}} <img ng-src="{{authData.currentUser.thumbnail}}">
-			</div>
-		</div>
-
-
-		<ul class="app-nav">
-			<li>Home</li>
-			<li>Menu Item A</li>
-		</ul>
+	<div ng-cloak class="container-debug">
+		<div>Device Ready: {{cordovaState.deviceReady}}</div>
+		<div>Logged in: {{authState.isLoggedIn}}</div>
+		<div>Firebase Connected: {{authState.firebaseIsConnected}}</div>
 	</div>
 
+	<div ng-cloak ng-controller="loginController" ng-if="cordovaState.deviceReady && authState.firebaseIsConnected && authState.isLoggedIn">
 
-	<div class="app-content-container" ng-cloak ng-controller="TestCtrl" ng-if="cordovaState.deviceReady">
-		<div class="centered">
-			<h1>{{data.title}}</h1>
-			<div class="logo"></div>
-			<div id="deviceready" class="blink">
-				<p class="event listening" ng-show="!cordovaState.deviceReady">Connecting to Device</p>
-				<p class="event received" ng-show="cordovaState.deviceReady">Device is Ready</p>
+		<div class="app-nav-container" ng-controller="NavController">
+
+			<div class="container-login-userInfo" ng-controller="loginController" ng-click="logout()">
+				<img ng-src="{{authState.currentUser.thumbnail}}">
+				{{authState.currentUser.fullName}}
 			</div>
+
+
+			<ul class="app-nav">
+				<li>Lists</li>
+				<li>Items</li>
+				<li>Stores</li>
+			</ul>
 		</div>
-		<div class="app-content">
-			<p>
-				Ready: {{cordovaState.deviceReady}}
-				Title: <input type="text" ng-model="data.title">
-			</p>
-			<div ng-hide="authData.isLoggedIn">
-				<button ng-click="googleLogin()">Google Login</button>
-			</div>
-			<div ng-show="authData.isLoggedIn">
-				<button ng-click="logout()">Log out of GroceryGetter</button>
-			</div>
-			<div>Logged In: {{authData.isLoggedIn}}</div>
 
+
+		<div class="app-content-container" ng-controller="TestCtrl">
 
 		</div>
 	</div>
-
 </div>
 
 <!---->

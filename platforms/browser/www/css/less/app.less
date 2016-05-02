@@ -1,10 +1,12 @@
+@import "includes/palette";
 @import "includes/mixins";
 @import "includes/animations";
 @import "includes/phoneGapHacks";
 
 
-@import 'includes/login';
+@import "includes/login";
 
+.container-debug { display: none; }
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
 	display: none !important;
@@ -43,7 +45,34 @@ body {
 }
 
 .app-nav-container {
+	padding: 5px 8px;
+	height: 30px;
+	line-height: 30px;
+	background-color: rgba(0,0,0,.25);
+	vertical-align: middle;
+	clear: both;
 
+	.app-nav {
+		list-style: none;
+		margin: 0px;
+		padding: 0px;
+		font-size: 1.5em;
+		overflow: hidden;
+
+		li {
+			float: left;
+			display: inline-block;
+			border-right: 1px solid @black;
+			padding: 0 5px;
+
+			&:first-child {
+				padding-left: 0;
+			}
+			&:last-child {
+				border-right: none;
+			}
+		}
+	}
 }
 
 

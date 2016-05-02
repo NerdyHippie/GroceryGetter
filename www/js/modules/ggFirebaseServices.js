@@ -37,7 +37,8 @@ ggFire.service('ggFireAuthService',['$http','ggFirebaseAuth','fbRootRef','$fireb
 			switch(authData.provider) {
 				case 'google':
 					newUserData = {
-						provider: authData.provider
+						id: authData.uid
+						,provider: authData.provider
 						,fullName: authData.google.cachedUserProfile.name
 						,firstName: authData.google.cachedUserProfile.given_name
 						,lastName: authData.google.cachedUserProfile.family_name
@@ -47,7 +48,7 @@ ggFire.service('ggFireAuthService',['$http','ggFirebaseAuth','fbRootRef','$fireb
 			}
 
 			angular.extend(userObj,newUserData);
-			userObj.$save()
+			userObj.$save();
 
 			return userObj;
 		}
@@ -88,6 +89,12 @@ ggFire.service('ggFireDataService',['fbRootRef','$firebaseObject','$firebaseArra
 		}
 		,getUsers: function() {
 			return new $firebaseArray(fbRootRef.child('users'));
+		}
+		,getLists: function(userId) {
+			return new $firebaseArray(fbRootRef.child('lists').orderByChild('ownerId').equalTo(userId));
+		}
+		,getList: function(listId) {
+			return new $firebaseObject(fbRootRef.child('lists').child(listId));
 		}
 	};
 	return svc;

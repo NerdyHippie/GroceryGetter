@@ -34,6 +34,7 @@
   line-height: 30px;
   float: right;
   font-size: 1.3em;
+  padding: 5px;
   vertical-align: middle;
 }
 .container-login-userInfo img {
@@ -87,8 +88,7 @@ body {
   overflow: auto;
 }
 .app-nav-container {
-  padding: 5px 8px;
-  height: 30px;
+  height: 40px;
   line-height: 30px;
   background-color: rgba(0, 0, 0, 0.25);
   vertical-align: middle;
@@ -97,7 +97,7 @@ body {
 .app-nav-container .app-nav {
   list-style: none;
   margin: 0px;
-  padding: 0px;
+  padding: 5px;
   font-size: 1.5em;
   overflow: hidden;
 }
@@ -106,6 +106,13 @@ body {
   display: inline-block;
   border-right: 1px solid #000000;
   padding: 0 5px;
+}
+.app-nav-container .app-nav li a {
+  color: #000000;
+  text-decoration: none;
+}
+.app-nav-container .app-nav li:hover {
+  background-color: rgba(255, 255, 255, 0.25);
 }
 .app-nav-container .app-nav li:first-child {
   padding-left: 0;
