@@ -1,0 +1,23 @@
+<div class="centered">
+	<h1>{{data.title}}</h1>
+	<div class="logo"></div>
+	<div id="deviceready" class="blink">
+		<p class="event listening" ng-show="!cordovaState.deviceReady">Connecting to Device</p>
+		<p class="event received" ng-show="cordovaState.deviceReady">Device is Ready</p>
+	</div>
+</div>
+<div class="app-content">
+	<p>
+		Ready: {{cordovaState.deviceReady}}
+		Title: <input type="text" ng-model="data.title">
+	</p>
+	<div ng-hide="authState.isLoggedIn">
+		<button ng-click="googleLogin()">Google Login</button>
+	</div>
+	<div ng-show="authState.isLoggedIn">
+		<button ng-click="logout()">Log out of GroceryGetter</button>
+	</div>
+	<div>Logged In: {{authState.isLoggedIn}}</div>
+
+
+</div>

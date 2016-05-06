@@ -22,15 +22,20 @@ ggFire.service('ggFireAuthService',['$http','ggFirebaseAuth','fbRootRef','$fireb
 			//console.log(svc);
 		}
 		,setLoggedOut: function() {
+			if (svc.authData.isLoggedIn) {
+				if (svc.authData.desktopFormat) {
+					if (confirm("Do you want to log out of your Google Account as well? (Do this to switch users)")) {
+						console.log('open logout window');
+						window.open('https://accounts.google.com/logout');
+					}
+				}
+				switch(svc.authData.currentUser.provider) {
+					case 'google':
+						$http.get('https://accounts.google.com/logout');
+						break;
+				}
+			}
 			svc.authData.isLoggedIn = false;
-			if (svc.authData.desktopFormat) {
-				window.open('https://accounts.google.com/logout');
-			}
-			switch(svc.authData.currentUser.provider) {
-				case 'google':
-					$http.get('https://accounts.google.com/logout');
-					break;
-			}
 			svc.authData.currentUser = {};
 		}
 		,setUserData: function(authData) {
@@ -73,9 +78,17 @@ ggFire.service('ggFireAuthService',['$http','ggFirebaseAuth','fbRootRef','$fireb
 
 	return svc;
 }]);
-ggFire.service('ggFireDataService',['fbRootRef','$firebaseObject','$firebaseArray',function(fbRootRef,$firebaseObject,$firebaseArray) {
+ggFire.service('ggFireDataService',['fbRootRef','ggFireAuthService','$firebaseObject','$firebaseArray','FirebaseUrl',function(fbRootRef,ggFireAuthService,$firebaseObject,$firebaseArray,FirebaseUrl) {
 	var svc = {
-		getUser: function(userId) {
+		genericGetItem: function(path,itemId) {
+			if (itemId) path = path +'/'+ itemId;
+			console.log(path);
+			return new $firebaseObject(fbRootRef.child(path));
+		}
+		,genericGetList: function(path) {
+			return new $firebaseArray(fbRootRef.child(path));
+		}
+		,getUser: function(userId) {
 			var userObj = $firebaseObject.$extend({
 				$$defaults: {
 					firstName: ''
@@ -94,11 +107,49 @@ ggFire.service('ggFireDataService',['fbRootRef','$firebaseObject','$firebaseArra
 			return new $firebaseArray(fbRootRef.child('users'));
 		}
 		,getStores: function() {
-			return new $firebaseArray(fbRootRef.child('stores'));
+			var fb = new Firebase(FirebaseUrl);
+			var norm = new Firebase.util.NormalizedCollection(
+				fb.child('stores')
+				,fb.child('storePermissions')
+			);
+
+			norm.select('stores.name','stores.description','storePermissions.users');
+
+			return new $firebaseArray(norm.ref());
 		}
-		,getStore: function(storeId) {
-			return new $firebaseObject(fbRootRef.child('stores').child(storeId));
+		,getStoreInfo: function(storeId) {
+			console.log('store id',storeId)
+			return svc.genericGetItem('stores',storeId);
 		}
+		,getStoreUsers: function(storeId) {
+			return svc.genericGetItem('storePermissions',storeId);
+		}
+		,getStorePermissions: function(storeId) {
+			return new $firebaseObject(fbRootRef.child('storePermissions').child(storeId).child('users'));
+		}
+		,addNewStore: function(storeData,cb,ecb) {
+			cb = cb || angular.noop;
+			ecb = ecb || angular.noop;
+
+			if (storeData) {
+				var stores = svc.genericGetList('stores');
+
+				stores.$add(storeData).then(function(storeResponse) {
+					console.log('store added',storeResponse.key());
+
+					var storePermissions = svc.getStorePermissions(storeResponse.key());
+					console.log(storePermissions);
+					storePermissions[ggFireAuthService.authData.currentUser.id] = "own";
+					storePermissions.$save().then(function(permResponse) {
+						console.log('permissions added',permResponse);
+						cb(storeResponse,permResponse);
+					},ecb);
+				},ecb);
+
+			}
+		}
+
+
 		,getItems: function(args) {
 			args = args || {};
 			if (args.storeId) {

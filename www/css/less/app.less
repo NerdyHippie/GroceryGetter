@@ -1,8 +1,13 @@
+@import "includes/mixins/variables";
+@import "includes/mixins/opacity";
+@import "includes/mixins/vendor-prefixes";
+@import "includes/mixins/tab-focus";
+
 @import "includes/palette";
 @import "includes/mixins";
 @import "includes/animations";
 @import "includes/phoneGapHacks";
-
+@import "includes/buttons";
 
 @import "includes/login";
 
@@ -27,6 +32,7 @@ body {
 
 .top-container {
 	background-color: #e4221c;
+	background-image: -moz-linear-gradient(top, #ff9747 0%, #f3a06f 51%); /* FF3.6+ */
 	background-image:linear-gradient(top, #a70b9c 0%, #e471d8 51%);
 	background-image:-webkit-linear-gradient(top, #2c53a7 0%, #7374e4 51%);
 	background-image:-ms-linear-gradient(top, #a6a70b 0%, #e4e36f 51%);

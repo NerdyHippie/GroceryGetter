@@ -1,0 +1,23 @@
+<h1>Items</h1>
+
+<form ng-submit="addNewItem()">
+	<input ng-model="newItem.name" placeholder="New Item">
+	<select ng-model="newItem.storeId" ng-options="id as store.name for (id,store) in stores">
+		<option value="">Select A Store</option>
+	</select>
+	<button type="submit">Add</button>
+</form>
+
+<ul>
+	<li ng-repeat="item in items">
+		<a href="#/items/{{item.$id}}">{{item.name}}</a>
+		<!--<pre>{{item}}</pre>-->
+	</li>
+</ul>
+
+<ul>
+	<li ng-repeat="store in stores">
+		<a href="#/stores/{{store.$id}}">{{store.name}}</a>
+		<!--<pre>{{store}}</pre>-->
+	</li>
+</ul>

@@ -76,7 +76,26 @@ ggApp.controller('listListController',['$scope','$rootScope','ggFireDataService'
 		});
 	}
 }]);
-ggApp.controller('listDetailController',['$scope','$rootScope','$routeParams','ggFireDataService',function($scope,$rootScope,$routeParams,ggFireDataService) {
+ggApp.controller('listDisplayController',['$scope','ggFireDataService',function($scope,ggFireDataService) {
+	console.log('storeId',$scope.list.store);
+	$scope.storeInfo = ggFireDataService.getStoreInfo($scope.list.store);
+	$scope.storeItems = ggFireDataService.getItems({storeId:$scope.list.store});
+
+	$scope.toggleListShow = function() {
+		$scope.listShow = !$scope.listShow;
+	}
+}]);
+ggApp.directive('listDisplay',[function() {
+	return {
+		restrict: 'EA'
+		,scope: {
+			list: '='
+		}
+		,controller: 'listDisplayController'
+		,templateUrl: 'directiveTemplates/listDisplay.html'
+	}
+}]);
+/*ggApp.controller('listDetailController',['$scope','$rootScope','$routeParams','ggFireDataService',function($scope,$rootScope,$routeParams,ggFireDataService) {
 	angular.extend($scope,$routeParams);
 
 	ggFireDataService.getList($scope.listId).$loaded(function(data) {
@@ -84,7 +103,7 @@ ggApp.controller('listDetailController',['$scope','$rootScope','$routeParams','g
 
 		$scope.storeItems = ggFireDataService.getItems({storeId:data.storeId});
 	});
-}]);
+}]);*/
 
 ggApp.controller('itemListController',['$scope','$rootScope','ggFireDataService',function($scope,$rootScope,ggFireDataService) {
 	$scope.items = ggFireDataService.getItems();
@@ -110,18 +129,18 @@ ggApp.controller('itemDetailController',['$scope','$rootScope','$routeParams','g
 
 ggApp.controller('storeListController',['$scope','$rootScope','ggFireDataService',function($scope,$rootScope,ggFireDataService) {
 	$scope.stores = ggFireDataService.getStores();
+	$scope.stores = ggFireDataService.getStores();
 
-	var _newStoreDefault = {
-		ownerId: $rootScope.authState.currentUser.id
-	};
+	var _newStoreDefault = {};
+
 	$scope.newStore = angular.copy(_newStoreDefault);
 	$scope.addNewStore = function() {
-		$scope.stores.$add($scope.newStore).then(function() {
+		ggFireDataService.addNewStore($scope.newStore,function() {
 			$scope.newStore = angular.copy(_newStoreDefault);
 		});
 	}
 }]);
 ggApp.controller('storeDetailController',['$scope','$rootScope','$routeParams','ggFireDataService',function($scope,$rootScope,$routeParams,ggFireDataService) {
 	angular.extend($scope,$routeParams);
-	$scope.store = ggFireDataService.getStore($scope.storeId);
+	$scope.store = ggFireDataService.getStoreInfo($scope.storeId);
 }]);
