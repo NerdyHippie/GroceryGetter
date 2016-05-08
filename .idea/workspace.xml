@@ -2,24 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d84d9091-317a-440a-9f48-7532c23a2ae8" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/www/css/less/includes/buttons.less" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/www/css/less/includes/mixins/buttons.less" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/www/css/less/includes/genericClasses.less" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/www/directiveTemplates/listItem.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/www/css/less/includes/mixins/opacity.less" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/www/css/less/includes/mixins/tab-focus.less" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/www/css/less/includes/mixins/variables.less" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/www/css/less/includes/mixins/vendor-prefixes.less" />
-      <change type="MOVED" beforePath="C:\inetpub\GroceryGetter\www\views\listDetail.html" afterPath="$PROJECT_DIR$/www/directiveTemplates/listDisplay.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/www/directiveTemplates/listItemDisplay.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/www/css/less/includes/responsive.less" />
+      <change type="DELETED" beforePath="C:\inetpub\GroceryGetter\www\directiveTemplates\listItem.html" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/css/app.css" afterPath="$PROJECT_DIR$/www/css/app.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/css/less/app.less" afterPath="$PROJECT_DIR$/www/css/less/app.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/modules/ggFirebaseServices.js" afterPath="$PROJECT_DIR$/www/js/modules/ggFirebaseServices.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/css/less/includes/genericClasses.less" afterPath="$PROJECT_DIR$/www/css/less/includes/genericClasses.less" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/groceryGetter.js" afterPath="$PROJECT_DIR$/www/js/groceryGetter.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/index.html" afterPath="$PROJECT_DIR$/www/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/views/itemDetail.html" afterPath="$PROJECT_DIR$/www/views/itemDetail.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/directiveTemplates/listDisplay.html" afterPath="$PROJECT_DIR$/www/directiveTemplates/listDisplay.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/views/listList.html" afterPath="$PROJECT_DIR$/www/views/listList.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/views/storeDetail.html" afterPath="$PROJECT_DIR$/www/views/storeDetail.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/views/storeList.html" afterPath="$PROJECT_DIR$/www/views/storeList.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="GroceryGetter.iws" />
@@ -41,11 +32,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="listItem.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/directiveTemplates/listItem.html">
+      <file leaf-file-name="listItemDisplay.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/www/directiveTemplates/listItemDisplay.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.5">
-              <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.092391305">
+              <caret line="2" column="15" selection-start-line="2" selection-start-column="15" selection-end-line="2" selection-end-column="15" />
               <folding />
             </state>
           </provider>
@@ -54,23 +45,36 @@
       <file leaf-file-name="listDisplay.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/directiveTemplates/listDisplay.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.5">
-              <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+            <state vertical-scroll-proportion="-2.6153846">
+              <caret line="4" column="98" selection-start-line="4" selection-start-column="98" selection-end-line="4" selection-end-column="98" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="groceryGetter.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="groceryGetter.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/groceryGetter.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.52538073">
-              <caret line="81" column="77" selection-start-line="81" selection-start-column="77" selection-end-line="81" selection-end-column="77" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="98" column="0" selection-start-line="98" selection-start-column="0" selection-end-line="98" selection-end-column="0" />
               <folding>
-                <element signature="e#1068#1286#0" expanded="false" />
-                <element signature="e#3495#3906#0" expanded="false" />
-                <element signature="e#4067#4165#0" expanded="false" />
+                <element signature="e#1384#1490#0" expanded="false" />
+                <element signature="e#1747#1898#0" expanded="false" />
+                <element signature="e#2030#2401#0" expanded="false" />
+                <element signature="e#2511#2788#0" expanded="false" />
+                <element signature="e#3649#4060#0" expanded="false" />
+                <element signature="e#4221#4319#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="listList.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/views/listList.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-4.576923">
+              <caret line="7" column="43" selection-start-line="7" selection-start-column="43" selection-end-line="7" selection-end-column="43" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -78,9 +82,15 @@
       <file leaf-file-name="app.less" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/css/less/app.less">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="-5.792453">
+              <caret line="127" column="23" selection-start-line="127" selection-start-column="23" selection-end-line="127" selection-end-column="23" />
+              <folding>
+                <element signature="e#514#972#0" expanded="false" />
+                <element signature="e#989#1544#0" expanded="false" />
+                <element signature="e#1565#2137#0" expanded="false" />
+                <element signature="e#2163#2365#0" expanded="false" />
+                <element signature="e#2422#2650#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -143,14 +153,17 @@
         <option value="$PROJECT_DIR$/www/views/storeList.html" />
         <option value="$PROJECT_DIR$/www/index.html" />
         <option value="$PROJECT_DIR$/www/js/modules/ggFirebaseServices.js" />
-        <option value="$PROJECT_DIR$/www/views/listList.html" />
-        <option value="$PROJECT_DIR$/www/css/less/includes/genericClasses.less" />
         <option value="$USER_HOME$/AppData/Local/Temp/buttons.less" />
-        <option value="$PROJECT_DIR$/www/css/less/app.less" />
         <option value="$PROJECT_DIR$/www/css/less/includes/buttons.less" />
         <option value="$PROJECT_DIR$/www/views/listItem.html" />
+        <option value="$PROJECT_DIR$/www/views/listList.html" />
+        <option value="$PROJECT_DIR$/www/css/less/includes/genericClasses.less" />
+        <option value="$PROJECT_DIR$/www/css/less/includes/responsive.less" />
+        <option value="$PROJECT_DIR$/www/css/less/app.less" />
+        <option value="$PROJECT_DIR$/www/directiveTemplates/listItem.html" />
         <option value="$PROJECT_DIR$/www/directiveTemplates/listDisplay.html" />
         <option value="$PROJECT_DIR$/www/js/groceryGetter.js" />
+        <option value="$PROJECT_DIR$/www/directiveTemplates/listItemDisplay.html" />
       </list>
     </option>
   </component>
@@ -551,22 +564,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/views/listList.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.576923">
-          <caret line="7" column="48" selection-start-line="7" selection-start-column="48" selection-end-line="7" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/css/less/includes/genericClasses.less">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.09434">
-          <caret line="19" column="1" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/css/less/includes/mixins/buttons.less">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -647,14 +644,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/css/less/app.less">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/css/less/includes/buttons.less">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -663,31 +652,74 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/directiveTemplates/listDisplay.html">
+    <entry file="file://$PROJECT_DIR$/www/css/less/includes/genericClasses.less">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.5">
-          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.5982405">
+          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/directiveTemplates/listItem.html">
+    <entry file="file://$PROJECT_DIR$/www/css/less/includes/responsive.less">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.5">
-          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.1994135">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding>
+            <element signature="e#105#391#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/css/less/app.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.792453">
+          <caret line="127" column="23" selection-start-line="127" selection-start-column="23" selection-end-line="127" selection-end-column="23" />
+          <folding>
+            <element signature="e#514#972#0" expanded="false" />
+            <element signature="e#989#1544#0" expanded="false" />
+            <element signature="e#1565#2137#0" expanded="false" />
+            <element signature="e#2163#2365#0" expanded="false" />
+            <element signature="e#2422#2650#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/views/listList.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.576923">
+          <caret line="7" column="43" selection-start-line="7" selection-start-column="43" selection-end-line="7" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/directiveTemplates/listDisplay.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.6153846">
+          <caret line="4" column="98" selection-start-line="4" selection-start-column="98" selection-end-line="4" selection-end-column="98" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/www/js/groceryGetter.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.52538073">
-          <caret line="81" column="77" selection-start-line="81" selection-start-column="77" selection-end-line="81" selection-end-column="77" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="98" column="0" selection-start-line="98" selection-start-column="0" selection-end-line="98" selection-end-column="0" />
           <folding>
-            <element signature="e#1068#1286#0" expanded="false" />
-            <element signature="e#3495#3906#0" expanded="false" />
-            <element signature="e#4067#4165#0" expanded="false" />
+            <element signature="e#1384#1490#0" expanded="false" />
+            <element signature="e#1747#1898#0" expanded="false" />
+            <element signature="e#2030#2401#0" expanded="false" />
+            <element signature="e#2511#2788#0" expanded="false" />
+            <element signature="e#3649#4060#0" expanded="false" />
+            <element signature="e#4221#4319#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/directiveTemplates/listItemDisplay.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.092391305">
+          <caret line="2" column="15" selection-start-line="2" selection-start-column="15" selection-end-line="2" selection-end-column="15" />
+          <folding />
         </state>
       </provider>
     </entry>

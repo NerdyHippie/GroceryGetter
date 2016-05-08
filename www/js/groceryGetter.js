@@ -79,7 +79,7 @@ ggApp.controller('listListController',['$scope','$rootScope','ggFireDataService'
 ggApp.controller('listDisplayController',['$scope','ggFireDataService',function($scope,ggFireDataService) {
 	console.log('storeId',$scope.list.store);
 	$scope.storeInfo = ggFireDataService.getStoreInfo($scope.list.store);
-	$scope.storeItems = ggFireDataService.getItems({storeId:$scope.list.store});
+	//$scope.storeItems = ggFireDataService.getItems({storeId:$scope.list.store});
 
 	$scope.toggleListShow = function() {
 		$scope.listShow = !$scope.listShow;
@@ -89,21 +89,31 @@ ggApp.directive('listDisplay',[function() {
 	return {
 		restrict: 'EA'
 		,scope: {
-			list: '='
+			list: '=listDisplay'
 		}
 		,controller: 'listDisplayController'
 		,templateUrl: 'directiveTemplates/listDisplay.html'
 	}
 }]);
-/*ggApp.controller('listDetailController',['$scope','$rootScope','$routeParams','ggFireDataService',function($scope,$rootScope,$routeParams,ggFireDataService) {
-	angular.extend($scope,$routeParams);
+ggApp.controller('listItemDisplayController',['$scope','ggFireDataService',function($scope,ggFireDataService) {
 
-	ggFireDataService.getList($scope.listId).$loaded(function(data) {
-		$scope.list = data;
+	ggFireDataService.getItem($scope.itemId).$loaded(function(data) {
+		$scope.item = data;
 
-		$scope.storeItems = ggFireDataService.getItems({storeId:data.storeId});
+		//$scope.storeItems = ggFireDataService.getItems({storeId:data.storeId});
 	});
-}]);*/
+}]);
+ggApp.directive('listItemDisplay',[function() {
+	return {
+		restrict: 'EA'
+		,scope: {
+			itemId: '='
+			,qty: '='
+		}
+		,controller: 'listItemDisplayController'
+		,templateUrl: 'directiveTemplates/listItemDisplay.html'
+	}
+}]);
 
 ggApp.controller('itemListController',['$scope','$rootScope','ggFireDataService',function($scope,$rootScope,ggFireDataService) {
 	$scope.items = ggFireDataService.getItems();

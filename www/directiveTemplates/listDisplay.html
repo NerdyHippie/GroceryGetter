@@ -2,8 +2,8 @@
 	<h3 ng-click="toggleListShow()" class="fake-link">{{storeInfo.name}}</h3>
 	<div ng-show="listShow">
 		<ul>
-			<li ng-repeat="(itemId,qty) in list.items">
-				{{qty}} <pre>{{itemId}}</pre>
+			<li ng-repeat="(itemId,qty) in list.items" list-item-display item-id="itemId" qty="qty">
+
 			</li>
 		</ul>
 		<pre>{{list}}</pre>
