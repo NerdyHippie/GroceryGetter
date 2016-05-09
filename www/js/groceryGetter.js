@@ -29,6 +29,10 @@ ggApp.config(['$routeProvider',function($routeProvider) {
 			templateUrl: 'views/storeDetail.html',
 			controller: 'storeDetailController'
 		})
+		.when('/qtyTypes', {
+			templateUrl: 'views/qtyTypeList.html',
+			controller: 'qtyTypeListController'
+		})
 		.otherwise({
 			redirectTo: '/home'
 		});
@@ -79,7 +83,7 @@ ggApp.controller('listListController',['$scope','$rootScope','ggFireDataService'
 ggApp.controller('listDisplayController',['$scope','ggFireDataService',function($scope,ggFireDataService) {
 	console.log('storeId',$scope.list.store);
 	$scope.storeInfo = ggFireDataService.getStoreInfo($scope.list.store);
-	//$scope.storeItems = ggFireDataService.getItems({storeId:$scope.list.store});
+	$scope.storeItems = ggFireDataService.getItems({storeId:$scope.list.store});
 
 	$scope.toggleListShow = function() {
 		$scope.listShow = !$scope.listShow;
@@ -99,9 +103,21 @@ ggApp.controller('listItemDisplayController',['$scope','ggFireDataService',funct
 
 	ggFireDataService.getItem($scope.itemId).$loaded(function(data) {
 		$scope.item = data;
+		$scope.qtyInfo = ggFireDataService.getQtyInfo(data.qtyType);
 
 		//$scope.storeItems = ggFireDataService.getItems({storeId:data.storeId});
 	});
+
+	$scope.qtyType = function() {
+		if ($scope.qtyInfo && $scope.qtyInfo.$value) {
+			var typeArray = $scope.qtyInfo.$value.split('|');
+			if ($scope.qty > 1) {
+				return typeArray[1];
+			} else {
+				return typeArray[0];
+			}
+		}
+	}
 }]);
 ggApp.directive('listItemDisplay',[function() {
 	return {
@@ -115,6 +131,25 @@ ggApp.directive('listItemDisplay',[function() {
 	}
 }]);
 
+ggApp.controller('qtyTypeListController',['$scope','$rootScope','ggFireDataService',function($scope,$rootScope,ggFireDataService) {
+	$scope.types = ggFireDataService.getQtyInfo();
+
+	$scope.newItem = "";
+	$scope.addNewItem = function() {
+		$scope.types.$add($scope.newItem).then(function() {
+			$scope.newItem = "";
+		});
+	}
+}]);
+ggApp.controller('qtyTypeSelectController',['$scope','ggFireDataService',function($scope,ggFireDataService) {
+	$scope.qtypes = ggFireDataService.getQtyInfo();
+
+	$scope.parseQtyType = function(type) {
+		var names = type.split('|');
+		return names[0] + '/' + names[1];
+	};
+}]);
+
 ggApp.controller('itemListController',['$scope','$rootScope','ggFireDataService',function($scope,$rootScope,ggFireDataService) {
 	$scope.items = ggFireDataService.getItems();
 	$scope.stores = ggFireDataService.getStores();
@@ -124,7 +159,7 @@ ggApp.controller('itemListController',['$scope','$rootScope','ggFireDataService'
 	};
 	$scope.newItem = angular.copy(_newItemDefault);
 	$scope.addNewItem = function() {
-		if ($scope.newItem.storeId) {
+		if ($scope.newItem.stores) {
 			$scope.items.$add($scope.newItem).then(function() {
 				$scope.newItem = angular.copy(_newItemDefault);
 			});
@@ -132,9 +167,83 @@ ggApp.controller('itemListController',['$scope','$rootScope','ggFireDataService'
 
 	}
 }]);
-ggApp.controller('itemDetailController',['$scope','$rootScope','$routeParams','ggFireDataService',function($scope,$rootScope,$routeParams,ggFireDataService) {
-	angular.extend($scope,$routeParams);
-	$scope.item = ggFireDataService.getItem($scope.itemId);
+ggApp.controller('itemListInlineEditController',['$scope','ggFireDataService',function($scope,ggFireDataService) {
+	$scope.stores = ggFireDataService.getStores();
+
+	$scope.saveItem = function() {
+		$scope.parentList.$save($scope.item).then(function() {
+			if (!$scope.backupCopy.stores) $scope.backupCopy.stores = [];
+			if ($scope.item.stores != $scope.backupCopy.stores) {
+				var storesAdded = angular.copy($scope.item.stores).filter(function(val) {
+					return $scope.backupCopy.stores.indexOf(val) == -1;
+				});
+				var storesRemoved = angular.copy($scope.backupCopy.stores).filter(function(val) {
+					return $scope.item.stores.indexOf(val) == -1;
+				});
+
+				console.log(storesAdded,storesRemoved);
+
+				for (var i in storesAdded) {
+					var storeId = storesAdded[i];
+					console.log('storeId',store);
+					var store = ggFireDataService.getStoreInfo(storeId);
+					console.log(store);
+					if (!store.items) store.items = {};
+					store.items[$scope.item.$id] = 0;
+					store.$save();
+				}
+
+				for (var i in storesRemoved) {
+					var storeId = storesRemoved[i];
+					console.log('storeId',store);
+					var store = ggFireDataService.getStoreInfo(storeId);
+					console.log(store);
+					store.items[$scope.item.$id] = null;
+					store.$save();
+				}
+
+			}
+			$scope.cancelEdit(true);
+		},errorCB);
+	};
+
+	$scope.$watch(function() {
+		return $scope.item.qtyType;
+	},function(newVal,oldVal) {
+		$scope.showNewQtype = !newVal;
+	});
+
+	$scope.cancelEdit = function(doNotRestore) {
+		if (!doNotRestore) $scope.item = angular.copy($scope.backupCopy);
+		$scope.editMode = false;
+		delete $scope.backupCopy;
+
+		$scope.singleQty = '';
+		$scope.multiQty = '';
+	};
+
+	$scope.toggleEdit = function() {
+		$scope.editMode = !$scope.editMode;
+		$scope.backupCopy = angular.copy($scope.item);
+
+		// TODO get qty types here
+		$scope.singleQty = "singleName";
+		$scope.multiQty = "multiName";
+	};
+	$scope.toggleShowStores = function() {
+		$scope.showStores = !$scope.showStores;
+	};
+}]);
+ggApp.directive('itemListInlineEdit',[function() {
+	return {
+		restrict: 'EA'
+		,scope: {
+			item: '=itemListInlineEdit'
+			,parentList: '='
+		}
+		,controller: 'itemListInlineEditController'
+		,templateUrl: 'directiveTemplates/itemListInlineEdit.html'
+	}
 }]);
 
 ggApp.controller('storeListController',['$scope','$rootScope','ggFireDataService',function($scope,$rootScope,ggFireDataService) {
@@ -154,3 +263,9 @@ ggApp.controller('storeDetailController',['$scope','$rootScope','$routeParams','
 	angular.extend($scope,$routeParams);
 	$scope.store = ggFireDataService.getStoreInfo($scope.storeId);
 }]);
+
+
+function errorCB(error) {
+	alert('an error occurred');
+	console.error(error)
+}

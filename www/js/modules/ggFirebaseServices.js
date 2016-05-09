@@ -162,11 +162,21 @@ ggFire.service('ggFireDataService',['fbRootRef','ggFireAuthService','$firebaseOb
 		,getItem: function(itemId) {
 			return new $firebaseObject(fbRootRef.child('items').child(itemId));
 		}
+
+
+
 		,getLists: function() {
 			return new $firebaseArray(fbRootRef.child('lists'));
 		}
 		,getList: function(listId) {
 			return new $firebaseObject(fbRootRef.child('lists').child(listId));
+		}
+		,getQtyInfo: function(qtyId) {
+			if (qtyId) {
+				return new $firebaseObject(fbRootRef.child('qtyTypes').child(qtyId));
+			} else {
+				return new $firebaseArray(fbRootRef.child('qtyTypes'));
+			}
 		}
 	};
 	return svc;

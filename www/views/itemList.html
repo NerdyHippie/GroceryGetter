@@ -2,22 +2,17 @@
 
 <form ng-submit="addNewItem()">
 	<input ng-model="newItem.name" placeholder="New Item">
-	<select ng-model="newItem.storeId" ng-options="id as store.name for (id,store) in stores">
-		<option value="">Select A Store</option>
-	</select>
+	<select multiple ng-model="newItem.stores" ng-options="store.$id as store.name for store in stores"></select>
+	<div ng-controller="qtyTypeSelectController">
+		<select ng-model="newItem.qtyType" ng-options="type.$id as parseQtyType(type.$value) for type in qtypes">
+
+		</select>
+	</div>
 	<button type="submit">Add</button>
 </form>
 
 <ul>
-	<li ng-repeat="item in items">
-		<a href="#/items/{{item.$id}}">{{item.name}}</a>
-		<!--<pre>{{item}}</pre>-->
-	</li>
-</ul>
+	<li ng-repeat="item in items" item-list-inline-edit="item" parent-list="items">
 
-<ul>
-	<li ng-repeat="store in stores">
-		<a href="#/stores/{{store.$id}}">{{store.name}}</a>
-		<!--<pre>{{store}}</pre>-->
 	</li>
 </ul>

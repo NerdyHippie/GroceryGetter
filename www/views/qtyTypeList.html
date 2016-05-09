@@ -1,0 +1,13 @@
+<h1>Quantity Types</h1>
+
+<form ng-submit="addNewItem()">
+	<input ng-model="newItem" placeholder="New Type">
+
+	<button type="submit">Add</button>
+</form>
+
+<ul>
+	<li ng-repeat="type in types">
+		{{type.$id}} - {{type.$value}}
+	</li>
+</ul>

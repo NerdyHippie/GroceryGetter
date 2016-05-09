@@ -500,6 +500,29 @@ input[type="button"].btn-block {
     /* offset horizontal: half of image width and text area width */
   }
 }
+.fake-link {
+  text-decoration: none;
+  cursor: pointer;
+}
+.fake-link:hover {
+  text-decoration: underline;
+}
+.centered {
+  text-align: center;
+}
+.clearfix {
+  float: none;
+  clear: both;
+}
+.pull-left {
+  float: left;
+}
+.pull-right {
+  float: right;
+}
+select[multiple] {
+  vertical-align: top;
+}
 .container-login-userInfo {
   display: inline-block;
   height: 30px;

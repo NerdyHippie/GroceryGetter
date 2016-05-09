@@ -1,0 +1,32 @@
+<div class="item-list-inline-edit">
+	<div ng-show="!editMode">
+		<span ng-click="toggleEdit()" class="fake-link">{{item.name}}</span> <span ng-click="toggleShowStores()">in {{item.stores.length}} stores</span>
+		<div ng-show="item.stores && showStores">
+			In stores:
+			<ul>
+				<li ng-repeat="storeId in item.stores">{{storeId}}</li>
+			</ul>
+		</div>
+	</div>
+	<div ng-show="editMode">
+		<div>
+			<input ng-model="item.name" />  <button class="btn btn-success btn-mini" ng-click="saveItem()">Save</button> <button class="btn btn-mini" ng-click="cancelEdit()">Cancel</button>
+		</div>
+		<div ng-controller="qtyTypeSelectController">
+			<select ng-model="item.qtyType" ng-options="type.$id as parseQtyType(type.$value) for type in qtypes">
+				<option value="">New qty type</option>
+			</select>
+
+			<div ng-show="showNewQtype">
+				<input ng-model="singleQty" placeholder="Single qty name">
+				<input ng-model="multiQty" placeholder="Multiple qty name">
+			</div>
+
+		</div>
+		<div>
+			Stores:<br>
+			<select multiple ng-model="item.stores" ng-options="store.$id as store.name for store in stores"></select>
+		</div>
+	</div>
+</div>
+<!--<pre>{{item}}</pre>-->
