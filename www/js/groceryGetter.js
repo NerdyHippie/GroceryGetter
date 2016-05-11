@@ -81,19 +81,34 @@ ggApp.controller('listListController',['$scope','$rootScope','ggFireDataService'
 	}
 }]);
 ggApp.controller('listDisplayController',['$scope','ggFireDataService',function($scope,ggFireDataService) {
-	console.log('storeId',$scope.list.store);
-	$scope.storeInfo = ggFireDataService.getStoreInfo($scope.list.store);
-	$scope.storeItems = ggFireDataService.getItems({storeId:$scope.list.store});
+	$scope.list = ggFireDataService.getList($scope.listData.$id);
+	console.log('storeId',$scope.listData.store);
+	$scope.storeInfo = ggFireDataService.getStoreInfo($scope.listData.store);
+	$scope.storeItems = ggFireDataService.getItems({storeId:$scope.listData.store});
 
 	$scope.toggleListShow = function() {
 		$scope.listShow = !$scope.listShow;
+	};
+
+	var _newItemDefault = {};
+	$scope.newItem = angular.copy(_newItemDefault);
+
+	$scope.addItemToList = function() {
+		if ($scope.newItem.itemId && $scope.newItem.qty) {
+			if (!$scope.list.items) $scope.list.items = {};
+			var qty = $scope.newItem.qty || null;
+			$scope.list.items[$scope.newItem.itemId] = qty;
+			$scope.list.$save();
+			$scope.newItem = angular.copy(_newItemDefault);
+		}
+
 	}
 }]);
 ggApp.directive('listDisplay',[function() {
 	return {
 		restrict: 'EA'
 		,scope: {
-			list: '=listDisplay'
+			listData: '=listDisplay'
 		}
 		,controller: 'listDisplayController'
 		,templateUrl: 'directiveTemplates/listDisplay.html'
@@ -160,7 +175,17 @@ ggApp.controller('itemListController',['$scope','$rootScope','ggFireDataService'
 	$scope.newItem = angular.copy(_newItemDefault);
 	$scope.addNewItem = function() {
 		if ($scope.newItem.stores) {
-			$scope.items.$add($scope.newItem).then(function() {
+			$scope.items.$add($scope.newItem).then(function(ref) {
+				console.log('newItem added',ref);
+				for (var i in $scope.newItem.stores) {
+					var storeId = $scope.newItem.stores[i];
+					ggFireDataService.getStoreInfo(storeId).$loaded(function(data) {
+						var store = data;
+						if (!store.items) store.items = {};
+						store.items[ref.key()] = 0;
+						store.$save()
+					})
+				}
 				$scope.newItem = angular.copy(_newItemDefault);
 			});
 		}
@@ -170,36 +195,47 @@ ggApp.controller('itemListController',['$scope','$rootScope','ggFireDataService'
 ggApp.controller('itemListInlineEditController',['$scope','ggFireDataService',function($scope,ggFireDataService) {
 	$scope.stores = ggFireDataService.getStores();
 
+	function __addRemoveStores(storeId,itemId,addItem) {
+		var itemVal = null;
+		if (addItem) itemVal = 0;
+
+		ggFireDataService.getStoreInfo(storeId).$loaded(function(data) {
+			var store = data;
+
+			if (!store.items) store.items = {};
+			store.items[itemId] = itemVal;
+
+			store.$save();
+		});
+	}
+
 	$scope.saveItem = function() {
 		$scope.parentList.$save($scope.item).then(function() {
 			if (!$scope.backupCopy.stores) $scope.backupCopy.stores = [];
 			if ($scope.item.stores != $scope.backupCopy.stores) {
-				var storesAdded = angular.copy($scope.item.stores).filter(function(val) {
-					return $scope.backupCopy.stores.indexOf(val) == -1;
-				});
-				var storesRemoved = angular.copy($scope.backupCopy.stores).filter(function(val) {
-					return $scope.item.stores.indexOf(val) == -1;
-				});
+				var storesAdded = [];
+				var storesRemoved = [];
+				if ($scope.item.stores) {
+					storesAdded = angular.copy($scope.item.stores).filter(function(val) {
+						return $scope.backupCopy.stores.indexOf(val) == -1;
+					});
+				}
+				if ($scope.backupCopy.stores) {
+					storesRemoved = angular.copy($scope.backupCopy.stores).filter(function(val) {
+						return $scope.item.stores.indexOf(val) == -1;
+					});
+				}
 
 				console.log(storesAdded,storesRemoved);
 
-				for (var i in storesAdded) {
-					var storeId = storesAdded[i];
-					console.log('storeId',store);
-					var store = ggFireDataService.getStoreInfo(storeId);
-					console.log(store);
-					if (!store.items) store.items = {};
-					store.items[$scope.item.$id] = 0;
-					store.$save();
+				for (var a in storesAdded) {
+					var addStoreId = storesAdded[a];
+					__addRemoveStores(addStoreId,$scope.item.$id,true);
 				}
 
-				for (var i in storesRemoved) {
-					var storeId = storesRemoved[i];
-					console.log('storeId',store);
-					var store = ggFireDataService.getStoreInfo(storeId);
-					console.log(store);
-					store.items[$scope.item.$id] = null;
-					store.$save();
+				for (var r in storesRemoved) {
+					var remStoreId = storesRemoved[r];
+					__addRemoveStores(remStoreId,$scope.item.$id,false);
 				}
 
 			}

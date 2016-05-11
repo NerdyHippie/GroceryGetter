@@ -118,7 +118,7 @@ ggFire.service('ggFireDataService',['fbRootRef','ggFireAuthService','$firebaseOb
 			return new $firebaseArray(norm.ref());
 		}
 		,getStoreInfo: function(storeId) {
-			console.log('store id',storeId)
+			console.log('store id',storeId);
 			return svc.genericGetItem('stores',storeId);
 		}
 		,getStoreUsers: function(storeId) {
@@ -153,7 +153,16 @@ ggFire.service('ggFireDataService',['fbRootRef','ggFireAuthService','$firebaseOb
 		,getItems: function(args) {
 			args = args || {};
 			if (args.storeId) {
+				var fb = new Firebase(FirebaseUrl);
+				var norm = new Firebase.util.NormalizedCollection(
+					[fb.child('stores').child(args.storeId).child('items'),'storeItems']
+					,fb.child('items')
+				);
 
+				norm.select('items.name','items.qtyType');
+
+				return new $firebaseArray(norm.ref());
+				//return new $firebaseArray(fbRootRef.child('stores').child(args.storeId).child('items'))
 			} else {
 				return new $firebaseArray(fbRootRef.child('items'));
 			}

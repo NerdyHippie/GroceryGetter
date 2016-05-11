@@ -1,6 +1,13 @@
 <div class="list-grocery">
 	<h3 ng-click="toggleListShow()" class="fake-link">{{storeInfo.name}}</h3>
+	<!--<pre>{{storeItems | jsonFull}}</pre>-->
 	<div ng-show="listShow">
+		<form ng-submit="addItemToList()">
+			<input type="number" min="0" ng-model="newItem.qty" style="width: 3em;" />
+			<select ng-model="newItem.itemId" ng-options="item.$id as item.name for item in storeItems"></select>
+			<button class="btn btn-success btn-mini" type="submit">Add</button>
+		</form>
+		<pre>{{newItem | json}}</pre>
 		<ul>
 			<li ng-repeat="(itemId,qty) in list.items" list-item-display item-id="itemId" qty="qty">
 
