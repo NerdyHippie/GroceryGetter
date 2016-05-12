@@ -82,7 +82,7 @@ ggApp.controller('listListController',['$scope','$rootScope','ggFireDataService'
 ggApp.controller('listDisplayController',['$scope','ggFireDataService',function($scope,ggFireDataService) {
 	$scope.list = ggFireDataService.getList($scope.listData.$id);
 
-	console.log('storeId',$scope.listData.store);
+	//console.log('storeId',$scope.listData.store);
 
 	$scope.storeInfo = ggFireDataService.getStoreInfo($scope.listData.store);
 	$scope.storeItems = ggFireDataService.getItems({storeId:$scope.listData.store});
@@ -195,7 +195,7 @@ ggApp.controller('itemListController',['$scope','$rootScope','ggFireDataService'
 	$scope.addNewItem = function() {
 		if ($scope.newItem.stores) {
 			$scope.items.$add($scope.newItem).then(function(ref) {
-				console.log('newItem added',ref);
+				//console.log('newItem added',ref);
 				for (var i in $scope.newItem.stores) {
 					var storeId = $scope.newItem.stores[i];
 					ggFireDataService.getStoreInfo(storeId).$loaded(function(data) {
@@ -245,7 +245,7 @@ ggApp.controller('itemListInlineEditController',['$scope','ggFireDataService',fu
 					});
 				}
 
-				console.log(storesAdded,storesRemoved);
+				//console.log(storesAdded,storesRemoved);
 
 				for (var a in storesAdded) {
 					var addStoreId = storesAdded[a];
@@ -322,5 +322,5 @@ ggApp.controller('storeDetailController',['$scope','$rootScope','$routeParams','
 
 function errorCB(error) {
 	alert('an error occurred');
-	console.error(error)
+	//console.error(error)
 }

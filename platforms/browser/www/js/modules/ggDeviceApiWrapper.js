@@ -25,9 +25,9 @@ ggDevice.factory('geolocation',['$rootScope','cordovaReady',function($rootScope,
 				options);
 		}
 		,getCurrentPosition: cordovaReady(function (onSuccess, onError, options) {
-			console.log('firing gcp');
+			//console.log('firing gcp');
 			navigator.geolocation.getCurrentPosition(function(resp) {
-				console.log('Success??',resp);
+				//console.log('Success??',resp);
 			});
 		})
 	};

@@ -27,14 +27,14 @@ ggCordova.service('cordovaWrapper',['cordovaReady',function(cordovaReady) {
 		// The scope of 'this' is the event. In order to call the 'receivedEvent'
 		// function, we must explicitly call 'app.receivedEvent(...);'
 		,onDeviceReady: function() {
-			console.log('firing cordovaWrapper.onDeviceReady');
-			console.log(this);
+			//console.log('firing cordovaWrapper.onDeviceReady');
+			//console.log(this);
 			svc.cordovaState.deviceReady = true;
 			svc.receivedEvent('deviceready');
 
 		}
 		,onLoad: function() {
-			console.log('loaded!',arguments);
+			//console.log('loaded!',arguments);
 			svc.cordovaState.loaded = true;
 		}
 		// Update DOM on a Received Event
@@ -46,7 +46,7 @@ ggCordova.service('cordovaWrapper',['cordovaReady',function(cordovaReady) {
 			listeningElement.setAttribute('style', 'display:none;');
 			receivedElement.setAttribute('style', 'display:block;');
 
-			console.log('Received Event: ' + id);
+			//console.log('Received Event: ' + id);
 		}
 		,sniffPlatform: function() {
 
@@ -55,7 +55,7 @@ ggCordova.service('cordovaWrapper',['cordovaReady',function(cordovaReady) {
 			var ret = 'unknown';
 
 			if (!navigator.connection) {
-				console.log('Connection: Browser');
+				//console.log('Connection: Browser');
 				ret = 'browser';
 			} else {
 				var networkState = navigator.connection.type;

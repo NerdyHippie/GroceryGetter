@@ -25,7 +25,7 @@ ggFire.service('ggFireAuthService',['$http','ggFirebaseAuth','fbRootRef','$fireb
 			if (svc.authData.isLoggedIn) {
 				if (svc.authData.desktopFormat) {
 					if (confirm("Do you want to log out of your Google Account as well? (Do this to switch users)")) {
-						console.log('open logout window');
+						//console.log('open logout window');
 						window.open('https://accounts.google.com/logout');
 					}
 				}
@@ -70,7 +70,8 @@ ggFire.service('ggFireAuthService',['$http','ggFirebaseAuth','fbRootRef','$fireb
 			}
 		}
 		,loginWithGoogle: function() {
-			ggFirebaseAuth.$authWithOAuthPopup('google',{remember:'sessionOnly'}).then(svc.onAuth);
+			ggFirebaseAuth.$authWithOAuthPopup('google').then(svc.onAuth);
+			//,{remember:'sessionOnly'}
 		}
 	};
 
@@ -82,7 +83,7 @@ ggFire.service('ggFireDataService',['fbRootRef','ggFireAuthService','$firebaseOb
 	var svc = {
 		genericGetItem: function(path,itemId) {
 			if (itemId) path = path +'/'+ itemId;
-			console.log(path);
+			//console.log(path);
 			return new $firebaseObject(fbRootRef.child(path));
 		}
 		,genericGetList: function(path) {
@@ -118,7 +119,7 @@ ggFire.service('ggFireDataService',['fbRootRef','ggFireAuthService','$firebaseOb
 			return new $firebaseArray(norm.ref());
 		}
 		,getStoreInfo: function(storeId) {
-			console.log('store id',storeId);
+			//console.log('store id',storeId);
 			return svc.genericGetItem('stores',storeId);
 		}
 		,getStoreUsers: function(storeId) {
@@ -135,13 +136,13 @@ ggFire.service('ggFireDataService',['fbRootRef','ggFireAuthService','$firebaseOb
 				var stores = svc.genericGetList('stores');
 
 				stores.$add(storeData).then(function(storeResponse) {
-					console.log('store added',storeResponse.key());
+					//console.log('store added',storeResponse.key());
 
 					var storePermissions = svc.getStorePermissions(storeResponse.key());
-					console.log(storePermissions);
+					//console.log(storePermissions);
 					storePermissions[ggFireAuthService.authData.currentUser.id] = "own";
 					storePermissions.$save().then(function(permResponse) {
-						console.log('permissions added',permResponse);
+						//console.log('permissions added',permResponse);
 						cb(storeResponse,permResponse);
 					},ecb);
 				},ecb);
