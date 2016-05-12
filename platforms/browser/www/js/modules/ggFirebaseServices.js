@@ -22,15 +22,20 @@ ggFire.service('ggFireAuthService',['$http','ggFirebaseAuth','fbRootRef','$fireb
 			//console.log(svc);
 		}
 		,setLoggedOut: function() {
+			if (svc.authData.isLoggedIn) {
+				if (svc.authData.desktopFormat) {
+					if (confirm("Do you want to log out of your Google Account as well? (Do this to switch users)")) {
+						console.log('open logout window');
+						window.open('https://accounts.google.com/logout');
+					}
+				}
+				switch(svc.authData.currentUser.provider) {
+					case 'google':
+						$http.get('https://accounts.google.com/logout');
+						break;
+				}
+			}
 			svc.authData.isLoggedIn = false;
-			if (svc.authData.desktopFormat) {
-				window.open('https://accounts.google.com/logout');
-			}
-			switch(svc.authData.currentUser.provider) {
-				case 'google':
-					$http.get('https://accounts.google.com/logout');
-					break;
-			}
 			svc.authData.currentUser = {};
 		}
 		,setUserData: function(authData) {
@@ -77,6 +82,7 @@ ggFire.service('ggFireDataService',['fbRootRef','ggFireAuthService','$firebaseOb
 	var svc = {
 		genericGetItem: function(path,itemId) {
 			if (itemId) path = path +'/'+ itemId;
+			console.log(path);
 			return new $firebaseObject(fbRootRef.child(path));
 		}
 		,genericGetList: function(path) {
@@ -112,6 +118,7 @@ ggFire.service('ggFireDataService',['fbRootRef','ggFireAuthService','$firebaseOb
 			return new $firebaseArray(norm.ref());
 		}
 		,getStoreInfo: function(storeId) {
+			console.log('store id',storeId);
 			return svc.genericGetItem('stores',storeId);
 		}
 		,getStoreUsers: function(storeId) {
@@ -146,7 +153,16 @@ ggFire.service('ggFireDataService',['fbRootRef','ggFireAuthService','$firebaseOb
 		,getItems: function(args) {
 			args = args || {};
 			if (args.storeId) {
+				var fb = new Firebase(FirebaseUrl);
+				var norm = new Firebase.util.NormalizedCollection(
+					[fb.child('stores').child(args.storeId).child('items'),'storeItems']
+					,fb.child('items')
+				);
 
+				norm.select('items.name','items.qtyType');
+
+				return new $firebaseArray(norm.ref());
+				//return new $firebaseArray(fbRootRef.child('stores').child(args.storeId).child('items'))
 			} else {
 				return new $firebaseArray(fbRootRef.child('items'));
 			}
@@ -155,11 +171,21 @@ ggFire.service('ggFireDataService',['fbRootRef','ggFireAuthService','$firebaseOb
 		,getItem: function(itemId) {
 			return new $firebaseObject(fbRootRef.child('items').child(itemId));
 		}
+
+
+
 		,getLists: function() {
 			return new $firebaseArray(fbRootRef.child('lists'));
 		}
 		,getList: function(listId) {
 			return new $firebaseObject(fbRootRef.child('lists').child(listId));
+		}
+		,getQtyInfo: function(qtyId) {
+			if (qtyId) {
+				return new $firebaseObject(fbRootRef.child('qtyTypes').child(qtyId));
+			} else {
+				return new $firebaseArray(fbRootRef.child('qtyTypes'));
+			}
 		}
 	};
 	return svc;

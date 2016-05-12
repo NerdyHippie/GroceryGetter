@@ -70,7 +70,8 @@ ggFire.service('ggFireAuthService',['$http','ggFirebaseAuth','fbRootRef','$fireb
 			}
 		}
 		,loginWithGoogle: function() {
-			ggFirebaseAuth.$authWithOAuthPopup('google',{remember:'sessionOnly'}).then(svc.onAuth);
+			ggFirebaseAuth.$authWithOAuthPopup('google').then(svc.onAuth);
+			//,{remember:'sessionOnly'}
 		}
 	};
 

@@ -52,8 +52,6 @@ ggApp.controller('testCtrl',['$scope','ggFireDataService',function($scope,ggFire
 
 	$scope.data.users = ggFireDataService.getUsers();
 
-
-
 }]);
 
 ggApp.controller('navController',['$scope','ggFireAuthService',function($scope,ggFireAuthService) {
@@ -74,6 +72,7 @@ ggApp.controller('listListController',['$scope','$rootScope','ggFireDataService'
 		ownerId: $rootScope.authState.currentUser.id
 	};
 	$scope.newList = angular.copy(_newListDefault);
+
 	$scope.addNewList = function() {
 		$scope.lists.$add($scope.newList).then(function() {
 			$scope.newList = angular.copy(_newListDefault);
@@ -82,19 +81,22 @@ ggApp.controller('listListController',['$scope','$rootScope','ggFireDataService'
 }]);
 ggApp.controller('listDisplayController',['$scope','ggFireDataService',function($scope,ggFireDataService) {
 	$scope.list = ggFireDataService.getList($scope.listData.$id);
+
 	console.log('storeId',$scope.listData.store);
+
 	$scope.storeInfo = ggFireDataService.getStoreInfo($scope.listData.store);
 	$scope.storeItems = ggFireDataService.getItems({storeId:$scope.listData.store});
+	$scope.types = ggFireDataService.getQtyInfo();
 
 	$scope.toggleListShow = function() {
 		$scope.listShow = !$scope.listShow;
 	};
 
-	var _newItemDefault = {};
+	var _newItemDefault = {qty:0};
 	$scope.newItem = angular.copy(_newItemDefault);
 
 	$scope.addItemToList = function() {
-		if ($scope.newItem.itemId && $scope.newItem.qty) {
+		if ($scope.newItem.itemId && typeof $scope.newItem.qty != 'undefined') {
 			if (!$scope.list.items) $scope.list.items = {};
 			var qty = $scope.newItem.qty || null;
 			$scope.list.items[$scope.newItem.itemId] = qty;
@@ -102,6 +104,22 @@ ggApp.controller('listDisplayController',['$scope','ggFireDataService',function(
 			$scope.newItem = angular.copy(_newItemDefault);
 		}
 
+	}
+
+	function __findItemById(src,id) {
+		for (var i in src) {
+			var item = src[i];
+			if (item.$id == id) return item;
+		}
+	}
+	$scope.getQtyType = function() {
+		if ($scope.newItem.itemId) {
+			var storeItem = __findItemById($scope.storeItems,$scope.newItem.itemId);
+
+			var qtyType = __findItemById($scope.types,storeItem.qtyType).$value.split('|');
+
+			return $scope.newItem.qty == 1 ? qtyType[0] : qtyType[1];
+		}
 	}
 }]);
 ggApp.directive('listDisplay',[function() {
@@ -173,6 +191,7 @@ ggApp.controller('itemListController',['$scope','$rootScope','ggFireDataService'
 		ownerId: $rootScope.authState.currentUser.id
 	};
 	$scope.newItem = angular.copy(_newItemDefault);
+
 	$scope.addNewItem = function() {
 		if ($scope.newItem.stores) {
 			$scope.items.$add($scope.newItem).then(function(ref) {
@@ -284,11 +303,11 @@ ggApp.directive('itemListInlineEdit',[function() {
 
 ggApp.controller('storeListController',['$scope','$rootScope','ggFireDataService',function($scope,$rootScope,ggFireDataService) {
 	$scope.stores = ggFireDataService.getStores();
-	$scope.stores = ggFireDataService.getStores();
 
 	var _newStoreDefault = {};
 
 	$scope.newStore = angular.copy(_newStoreDefault);
+
 	$scope.addNewStore = function() {
 		ggFireDataService.addNewStore($scope.newStore,function() {
 			$scope.newStore = angular.copy(_newStoreDefault);

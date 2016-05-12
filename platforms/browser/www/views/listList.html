@@ -4,9 +4,5 @@
 	<input ng-model="newList.name" placeholder="New List"> <button type="submit">Add</button>
 </form>
 
-<ul>
-	<li ng-repeat="list in lists">
-		<a href="#/lists/{{list.$id}}">{{list.name}}</a>
-		<!--<pre>{{list}}</pre>-->
-	</li>
-</ul>
+
+<div ng-repeat="list in lists" list-display="list"></div>
