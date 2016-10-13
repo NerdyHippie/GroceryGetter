@@ -19,6 +19,11 @@ ggCordova.service('cordovaWrapper',['cordovaReady',function(cordovaReady) {
 			} else {
 				svc.cordovaState.deviceReady = true;
 				svc.cordovaState.desktopFormat = true;
+				svc.cordovaState.deviceInfo = {
+					available: false
+					,platform: "browser"
+					,uuid: null
+				}
 			}
 			document.addEventListener('deviceready', svc.onDeviceReady, false);
 		}
@@ -27,9 +32,11 @@ ggCordova.service('cordovaWrapper',['cordovaReady',function(cordovaReady) {
 		// The scope of 'this' is the event. In order to call the 'receivedEvent'
 		// function, we must explicitly call 'app.receivedEvent(...);'
 		,onDeviceReady: function() {
-			//console.log('firing cordovaWrapper.onDeviceReady');
+			console.log('firing cordovaWrapper.onDeviceReady');
 			//console.log(this);
 			svc.cordovaState.deviceReady = true;
+			svc.cordovaState.deviceInfo = device;
+
 			svc.receivedEvent('deviceready');
 
 		}

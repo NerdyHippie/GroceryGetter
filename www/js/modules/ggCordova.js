@@ -19,6 +19,11 @@ ggCordova.service('cordovaWrapper',['cordovaReady',function(cordovaReady) {
 			} else {
 				svc.cordovaState.deviceReady = true;
 				svc.cordovaState.desktopFormat = true;
+				svc.cordovaState.deviceInfo = {
+					available: false
+					,platform: "browser"
+					,uuid: null
+				}
 			}
 			document.addEventListener('deviceready', svc.onDeviceReady, false);
 		}
@@ -30,6 +35,8 @@ ggCordova.service('cordovaWrapper',['cordovaReady',function(cordovaReady) {
 			console.log('firing cordovaWrapper.onDeviceReady');
 			//console.log(this);
 			svc.cordovaState.deviceReady = true;
+			svc.cordovaState.deviceInfo = device;
+
 			svc.receivedEvent('deviceready');
 
 		}

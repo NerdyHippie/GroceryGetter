@@ -45,7 +45,8 @@
 
 
 <body>
-<div class="top-container">
+<!--<div class="apple-menu-background" ng-if="cordovaState.deviceInfo.platform == 'iOS'"></div>-->
+<div class="top-container"><!-- ng-class="{'appleDevice':cordovaState.deviceInfo.platform == 'iOS','browser':cordovaState.deviceInfo.platform == 'browser'}"-->
 
 	<div class="app-loading-container" ng-if="!cordovaState.deviceReady || !authState.firebaseIsConnected">
 		<div class="app-loading">
@@ -75,25 +76,34 @@
 
 	<div ng-cloak ng-if="cordovaState.deviceReady && authState.firebaseIsConnected && authState.isLoggedIn">
 
-		<div class="app-nav-container" ng-controller="navController">
+		<div class="app-fixed-header" ng-controller="navController" ng-class="{'appleDevice':cordovaState.deviceInfo.platform == 'iOS'}">
+			<div class="app-nav-container">
+				<div class="container-login-userInfo" ng-controller="loginController" ng-click="logout()">
+					<img ng-src="{{authState.currentUser.thumbnail}}">
+					{{authState.currentUser.fullName}}
+				</div>
 
-			<div class="container-login-userInfo" ng-controller="loginController" ng-click="logout()">
-				<img ng-src="{{authState.currentUser.thumbnail}}">
-				{{authState.currentUser.fullName}}
+				<!--<a href="#menu" class="border-menu">
+					Menu
+				</a>-->
+				<ul class="app-nav">
+					<li><a href="#lists">Lists</a></li>
+					<li><a href="#items">Items</a></li>
+					<li><a href="#stores">Stores</a></li>
+					<li><a href="#qtyTypes">Types</a></li>
+				</ul>
 			</div>
 
-
-			<ul class="app-nav">
-				<li><a href="#lists">Lists</a></li>
-				<li><a href="#items">Items</a></li>
-				<li><a href="#stores">Stores</a></li>
-				<li><a href="#qtyTypes">Types</a></li>
-			</ul>
 		</div>
 
 
-		<div class="app-content-container" ng-view>
+		<div class="app-content-container" ng-class="{'appleDevice':cordovaState.deviceInfo.platform == 'iOS'}" ng-view>
 
+		</div>
+
+		<div id="debug" ng-class="{'appleDevice':cordovaState.deviceInfo.platform == 'iOS'}">
+			<h4>Debug info:</h4>
+			<pre>{{cordovaState.deviceInfo | json}}</pre>
 		</div>
 	</div>
 </div>
